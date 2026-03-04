@@ -1,11 +1,6 @@
 FROM php:8.2-apache
 
-# ---- FIX MPM ERROR ----
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load
-RUN ln -s /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
-RUN ln -s /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/
-
-# ---- Install dependencies ----
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -24,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Enable rewrite only (KHÔNG đụng mpm)
 RUN a2enmod rewrite
 
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
