@@ -29,6 +29,8 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data storage public/assets \
     && chmod -R 775 storage public/assets
 
+RUN echo "memory_limit=512M" > /usr/local/etc/php/conf.d/memory.ini
+
 EXPOSE 8080
 
 CMD ["php", "-S", "0.0.0.0:80", "-t", "public"]
